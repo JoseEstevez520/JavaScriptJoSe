@@ -12,4 +12,4 @@ Una pequeña plataforma para **aprender y practicar JavaScript** de manera inter
 
 1. Clona el repositorio:  
 ```bash
-git clone https://github.com/tu-usuario/tu-repo.git
+git clone https://github.com/JoseEstevez520/JavaScriptJoSe.git
