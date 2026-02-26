@@ -153,12 +153,11 @@
             ],
             exercises: [
 [
-                // ── 01-strings.js ──
                 {
                     id: "m1e1",
                     title: "Strings · Concatenación y longitud",
                     pts: 10,
-                    desc: "Declara dos constantes <strong>cadena1 = "Hola"</strong> y <strong>cadena2 = "Mundo"</strong>. Úsalas para mostrar por consola el texto unido con un espacio. Luego muestra la longitud de la cadena <em>"JavaScript"</em>.",
+                    desc: "Declara dos constantes <strong>cadena1 = \"Hola\"</strong> y <strong>cadena2 = \"Mundo\"</strong>. Úsalas para mostrar por consola el texto unido con un espacio. Luego muestra la longitud de la cadena <em>\"JavaScript\"</em>.",
                     starter: `const cadena1 = "Hola";
 const cadena2 = "Mundo";
 // 1. Muestra cadena1 + espacio + cadena2 por consola
@@ -169,22 +168,15 @@ const cadena2 = "Mundo";
                         { code: "console.log('JavaScript'.length);", explain: "// propiedad .length" }
                     ],
                     validate(code) {
-                        try {
-                            if (code.includes('cadena1') && code.includes('cadena2') && code.includes('.length')) return true;
-                            const logs = [];
-                            const orig = console.log;
-                            console.log = (...a) => { logs.push(a.join(' ')); orig(...a); };
-                            new Function(code)();
-                            console.log = orig;
-                            return logs.some(l => l.includes('Hola Mundo')) && logs.some(l => l === '10');
-                        } catch { return false; }
+                        new Function(code)();
+                        return (code.includes('cadena1') && code.includes('cadena2') && code.includes('.length'));
                     }
                 },
                 {
                     id: "m1e2",
                     title: "Strings · Primer y último carácter",
                     pts: 10,
-                    desc: "Dada la cadena <strong>texto = "Programar"</strong>, muestra por consola el primer carácter y el último carácter separados por un espacio. Resultado esperado: <em>P r</em>.",
+                    desc: "Dada la cadena <strong>texto = \"Programar\"</strong>, muestra por consola el primer carácter y el último carácter separados por un espacio. Resultado esperado: <em>P r</em>.",
                     starter: `const texto = "Programar";
 // Muestra el primer y último carácter separados por un espacio`,
                     hint: "El primer carácter es texto[0]. El último es texto[texto.length - 1] o texto.at(-1).",
@@ -193,22 +185,15 @@ const cadena2 = "Mundo";
                         { code: "// alternativa: texto.at(-1)", explain: "// índice negativo" }
                     ],
                     validate(code) {
-                        try {
-                            if (code.includes('texto[0]') && (code.includes('texto.length') || code.includes('.at(-1)'))) return true;
-                            const logs = [];
-                            const orig = console.log;
-                            console.log = (...a) => { logs.push(a.join(' ')); orig(...a); };
-                            new Function(code)();
-                            console.log = orig;
-                            return logs.some(l => l.trim() === 'P r');
-                        } catch { return false; }
+                        new Function(code)();
+                        return (code.includes('texto[0]') && (code.includes('texto.length') || code.includes('.at(-1)')));
                     }
                 },
                 {
                     id: "m1e3",
                     title: "Strings · Mayúsculas y minúsculas",
                     pts: 8,
-                    desc: "Dada una cadena <strong>texto = "Javascript"</strong>, muestra por consola su versión en minúsculas y en mayúsculas.",
+                    desc: "Dada una cadena <strong>texto = \"Javascript\"</strong>, muestra por consola su versión en minúsculas y en mayúsculas.",
                     starter: `const texto = "Javascript";
 // toLowerCase
 // toUpperCase`,
@@ -218,16 +203,15 @@ const cadena2 = "Mundo";
                         { code: "console.log(texto.toUpperCase());", explain: "// todo en mayúsculas" }
                     ],
                     validate(code) {
-                        try {
-                            return code.includes('toLowerCase') && code.includes('toUpperCase');
-                        } catch { return false; }
+                        new Function(code)();
+                        return (code.includes('toLowerCase') && code.includes('toUpperCase'));
                     }
                 },
                 {
                     id: "m1e4",
                     title: "Strings · Template literals e interpolación",
                     pts: 10,
-                    desc: "Declara <strong>const nombre = "Ana"</strong> y <strong>const edad = 20</strong>. Usa un <em>template literal</em> para mostrar por consola: <em>Ana tiene 20 años</em>.",
+                    desc: "Declara <strong>const nombre = \"Ana\"</strong> y <strong>const edad = 20</strong>. Usa un <em>template literal</em> para mostrar por consola: <em>Ana tiene 20 años</em>.",
                     starter: `const nombre = "Ana";
 const edad = 20;
 // Usa template literal con \${} para mostrar el mensaje`,
@@ -236,22 +220,15 @@ const edad = 20;
                         { code: "console.log(\`\${nombre} tiene \${edad} años\`);", explain: "// template literal con interpolación" }
                     ],
                     validate(code) {
-                        try {
-                            if (code.includes('\${nombre}') && code.includes('\${edad}')) return true;
-                            const logs = [];
-                            const orig = console.log;
-                            console.log = (...a) => { logs.push(a.join(' ')); orig(...a); };
-                            new Function(code)();
-                            console.log = orig;
-                            return logs.some(l => l.includes('Ana') && l.includes('20'));
-                        } catch { return false; }
+                        new Function(code)();
+                        return code.includes('$' + '{nombre}') && code.includes('$' + '{edad}');
                     }
                 },
                 {
                     id: "m1e5",
                     title: "Strings · Reemplazar espacios por guiones",
                     pts: 10,
-                    desc: "Dada la cadena <em>"Aprender JavaScript es divertido"</em>, muestra por consola la versión con todos los espacios reemplazados por guiones: <em>Aprender-JavaScript-es-divertido</em>.",
+                    desc: "Dada la cadena <em>\"Aprender JavaScript es divertido\"</em>, muestra por consola la versión con todos los espacios reemplazados por guiones.",
                     starter: `const texto = "Aprender JavaScript es divertido";
 // Reemplaza todos los espacios por guiones`,
                     hint: "Usa .replaceAll(' ', '-') o .replace(/ /g, '-').",
@@ -259,16 +236,15 @@ const edad = 20;
                         { code: "console.log(texto.replaceAll(' ', '-'));", explain: "// replaceAll reemplaza todas las ocurrencias" }
                     ],
                     validate(code) {
-                        try {
-                            return (code.includes('replaceAll') || code.includes('replace')) && (code.includes("'-'") || code.includes('"-"'));
-                        } catch { return false; }
+                        new Function(code)();
+                        return (code.includes('replaceAll') || code.includes('replace')) && (code.includes("'-'") || code.includes('"-"'));
                     }
                 },
                 {
                     id: "m1e6",
                     title: "Strings · includes y comparación de longitudes",
                     pts: 8,
-                    desc: "1) Comprueba si la cadena <em>"Estoy aprendiendo JavaScript"</em> contiene la palabra <em>'JavaScript'</em> y muéstralo en consola. 2) Comprueba si <em>"sol"</em> y <em>"mar"</em> tienen la misma longitud.",
+                    desc: "1) Comprueba si la cadena <em>\"Estoy aprendiendo JavaScript\"</em> contiene la palabra <em>'JavaScript'</em> y muéstralo en consola. 2) Comprueba si <em>\"sol\"</em> y <em>\"mar\"</em> tienen la misma longitud.",
                     starter: `const texto = "Estoy aprendiendo JavaScript";
 // 1. ¿Incluye "JavaScript"?
 
@@ -281,17 +257,15 @@ const str2 = "mar";
                         { code: "console.log(str1.length === str2.length);", explain: "// compara longitudes" }
                     ],
                     validate(code) {
-                        try {
-                            return code.includes('.includes(') && code.includes('.length');
-                        } catch { return false; }
+                        new Function(code)();
+                        return code.includes('.includes(') && code.includes('.length');
                     }
                 },
-                // ── 02-condicionales.js ──
                 {
                     id: "m1e7",
                     title: "Condicionales · Login con if/else",
                     pts: 10,
-                    desc: "Declara <strong>const usuario = "admin"</strong> y <strong>const pass = 1234</strong>. Usa un <em>if/else</em> para mostrar <em>'Acceso permitido'</em> si coinciden con los valores correctos, o <em>'Acceso denegado'</em> si no.",
+                    desc: "Declara <strong>const usuario = \"admin\"</strong> y <strong>const pass = 1234</strong>. Usa un <em>if/else</em> para mostrar <em>'Acceso permitido'</em> si coinciden con los valores correctos.",
                     starter: `const usuario = "admin";
 const pass = 1234;
 // if usuario === "admin" && pass === 1234 → "Acceso permitido"
@@ -303,9 +277,8 @@ const pass = 1234;
                         { code: "} else { console.log('Acceso denegado'); }", explain: "" }
                     ],
                     validate(code) {
-                        try {
-                            return code.includes('&&') && code.includes('if') && code.includes('else');
-                        } catch { return false; }
+                        new Function(code)();
+                        return code.includes('&&') && code.includes('if') && code.includes('else');
                     }
                 },
                 {
@@ -324,9 +297,8 @@ const pass = 1234;
                         { code: "else console.log('cero');", explain: "" }
                     ],
                     validate(code) {
-                        try {
-                            return code.includes('if') && code.includes('else if') && code.includes('else');
-                        } catch { return false; }
+                        new Function(code)();
+                        return code.includes('if') && code.includes('else if') && code.includes('else');
                     }
                 },
                 {
@@ -342,9 +314,8 @@ const pass = 1234;
                         { code: "console.log(categoria);", explain: "" }
                     ],
                     validate(code) {
-                        try {
-                            return code.includes('?') && code.includes(':') && (code.includes("'menor'") || code.includes('"menor"'));
-                        } catch { return false; }
+                        new Function(code)();
+                        return code.includes('?') && code.includes(':') && (code.includes("'menor'") || code.includes('"menor"'));
                     }
                 },
                 {
@@ -369,12 +340,10 @@ const pass = 1234;
                         { code: "}", explain: "" }
                     ],
                     validate(code) {
-                        try {
-                            return code.includes('switch') && code.includes('case') && code.includes('break') && code.includes('default');
-                        } catch { return false; }
+                        new Function(code)();
+                        return code.includes('switch') && code.includes('case') && code.includes('break') && code.includes('default');
                     }
                 },
-                // ── 03-estructuras.js ──
                 {
                     id: "m1e11",
                     title: "Estructuras · Array y métodos push/unshift/splice",
@@ -391,9 +360,8 @@ const pass = 1234;
                         { code: "animales.splice(2, 1);", explain: "// elimina 1 elemento en índice 2" }
                     ],
                     validate(code) {
-                        try {
-                            return code.includes('unshift') && code.includes('push') && code.includes('splice');
-                        } catch { return false; }
+                        new Function(code)();
+                        return code.includes('unshift') && code.includes('push') && code.includes('splice');
                     }
                 },
                 {
@@ -412,16 +380,15 @@ const pass = 1234;
                         { code: "libros.delete('1984');", explain: "// elimina '1984'" }
                     ],
                     validate(code) {
-                        try {
-                            return code.includes('new Set') && code.includes('.add(') && code.includes('.delete(');
-                        } catch { return false; }
+                        new Function(code)();
+                        return code.includes('new Set') && code.includes('.add(') && code.includes('.delete(');
                     }
                 },
                 {
                     id: "m1e13",
                     title: "Estructuras · Map (número de mes → nombre)",
                     pts: 12,
-                    desc: "Crea un <em>Map</em> que asocie el número del mes a su nombre (1→'enero', … 12→'diciembre'). Comprueba si el mes número 5 existe y muestra su valor. Usa el ternario para mensajes de error si el mes no existe.",
+                    desc: "Crea un <em>Map</em> que asocie el número del mes a su nombre (1→'enero', … 12→'diciembre'). Comprueba si el mes número 5 existe y muestra su valor.",
                     starter: `let meses = new Map([
   [1, "enero"], [2, "febrero"], [3, "marzo"],
   [4, "abril"], [5, "mayo"], [6, "junio"],
@@ -436,12 +403,10 @@ let numeroMes = 5;
                         { code: "console.log(msg);", explain: "" }
                     ],
                     validate(code) {
-                        try {
-                            return code.includes('new Map') && code.includes('.has(') && code.includes('.get(');
-                        } catch { return false; }
+                        new Function(code)();
+                        return code.includes('new Map') && code.includes('.has(') && code.includes('.get(');
                     }
                 },
-                // ── 04-bucles.js ──
                 {
                     id: "m1e14",
                     title: "Bucles · for, suma y pares",
@@ -464,16 +429,15 @@ for (let i = 2; i <= 50; i += 2) {
                         { code: "for (let i = 2; i <= 50; i += 2) console.log(i);", explain: "// incremento de 2" }
                     ],
                     validate(code) {
-                        try {
-                            return code.includes('for') && code.includes('suma') && code.includes('i++') && (code.includes('%') || code.includes('+= 2'));
-                        } catch { return false; }
+                        new Function(code)();
+                        return code.includes('for') && code.includes('suma') && code.includes('i++') && (code.includes('%') || code.includes('+= 2'));
                     }
                 },
                 {
                     id: "m1e15",
                     title: "Bucles · for…of y while",
                     pts: 10,
-                    desc: "Dado el array <em>[1, 2, 3, 4, 5, 6, 10, 12]</em>, usa un <em>while</em> para multiplicar todos sus valores y mostrar el producto. Luego usa un bucle <em>for…of</em> para imprimir cada nombre de <em>["Pepito", "Fulanito", "Menganito"]</em>.",
+                    desc: "Dado el array <em>[1, 2, 3, 4, 5, 6, 10, 12]</em>, usa un <em>while</em> para multiplicar todos sus valores y mostrar el producto. Luego usa un bucle <em>for…of</em> para imprimir cada nombre de <em>[\"Pepito\", \"Fulanito\", \"Menganito\"]</em>.",
                     starter: `const numeros = [1, 2, 3, 4, 5, 6, 10, 12];
 let producto = 1;
 let i = 0;
@@ -487,9 +451,8 @@ const nombres = ["Pepito", "Fulanito", "Menganito"];
                         { code: "for (let n of nombres) console.log(n);", explain: "// for...of" }
                     ],
                     validate(code) {
-                        try {
-                            return code.includes('while') && code.includes('for') && code.includes('of');
-                        } catch { return false; }
+                        new Function(code)();
+                        return code.includes('while') && code.includes('for') && code.includes('of');
                     }
                 },
                 {
@@ -512,12 +475,10 @@ for (let i = 3; i <= 10; i++) {
                         { code: "[a, b] = [b, siguiente];", explain: "// desestructuración para avanzar" }
                     ],
                     validate(code) {
-                        try {
-                            return code.includes('for') && (code.includes('[a, b]') || (code.includes('a =') && code.includes('b =')));
-                        } catch { return false; }
+                        new Function(code)();
+                        return code.includes('for') && (code.includes('[a, b]') || (code.includes('a =') && code.includes('b =')));
                     }
                 },
-                // ── 05-funciones.js ──
                 {
                     id: "m1e17",
                     title: "Funciones · Suma, mayor número y vocales",
@@ -549,19 +510,18 @@ console.log(contarVocales('Hola'));`,
                         { code: "for (let l of texto) if (vocales.includes(l)) contador++;", explain: "" }
                     ],
                     validate(code) {
-                        try {
-                            const fn = new Function(code + '; return typeof suma === "function" && typeof mayorNumero === "function" && typeof contarVocales === "function";')();
-                            if (!fn) return false;
-                            const fnSuma = new Function(code + '; return suma;')();
-                            const fnMayor = new Function(code + '; return mayorNumero;')();
-                            const fnVocales = new Function(code + '; return contarVocales;')();
-                            return fnSuma(2, 3) === 5 && fnMayor([1, 2, 5, 3]) === 5 && fnVocales('Hola') === 2;
-                        } catch { return false; }
+                        new Function(code)();
+                        const fn = new Function(code + '; return typeof suma === "function" && typeof mayorNumero === "function" && typeof contarVocales === "function";')();
+                        if (!fn) return false;
+                        const fnSuma = new Function(code + '; return suma;')();
+                        const fnMayor = new Function(code + '; return mayorNumero;')();
+                        const fnVocales = new Function(code + '; return contarVocales;')();
+                        return fnSuma(2, 3) === 5 && fnMayor([1, 2, 5, 3]) === 5 && fnVocales('Hola') === 2;
                     }
                 },
                 {
                     id: "m1e18",
-                    title: "Funciones · Elementoss comunes, sumaPares y elevarCuadrado",
+                    title: "Funciones · Elementos comunes, sumaPares y elevarCuadrado",
                     pts: 15,
                     desc: "Crea tres funciones usando métodos funcionales: <strong>elementosComunes(a, b)</strong> (filter + includes); <strong>sumaPares(nums)</strong> (forEach o filter + reduce); <strong>elevarCuadrado(nums)</strong> (map).",
                     starter: `function elementosComunes(array1, array2) {
@@ -586,21 +546,20 @@ console.log(elevarCuadrado([1,2,3]));`,
                         { code: "return listaNumeros.map(n => n ** 2);", explain: "// elevarCuadrado" }
                     ],
                     validate(code) {
-                        try {
-                            const fnC = new Function(code + '; return elementosComunes;')();
-                            const fnP = new Function(code + '; return sumaPares;')();
-                            const fnQ = new Function(code + '; return elevarCuadrado;')();
-                            return JSON.stringify(fnC([1,2,3],[1,4,3])) === '[1,3]'
-                                && fnP([1,2,4,5,6]) === 12
-                                && JSON.stringify(fnQ([1,2,3])) === '[1,4,9]';
-                        } catch { return false; }
+                        new Function(code)();
+                        const fnC = new Function(code + '; return elementosComunes;')();
+                        const fnP = new Function(code + '; return sumaPares;')();
+                        const fnQ = new Function(code + '; return elevarCuadrado;')();
+                        return JSON.stringify(fnC([1,2,3],[1,4,3])) === '[1,3]'
+                            && fnP([1,2,4,5,6]) === 12
+                            && JSON.stringify(fnQ([1,2,3])) === '[1,4,9]';
                     }
                 },
                 {
                     id: "m1e19",
                     title: "Funciones · invertirPalabras y factorial",
                     pts: 12,
-                    desc: "Crea <strong>invertirPalabras(texto)</strong> que invierta el orden de las palabras (ej. <em>'hola que tal'</em> → <em>'tal que hola'</em>) y <strong>factorial(n)</strong> que calcule n! (ej. <em>factorial(5) → 120</em>).",
+                    desc: "Crea <strong>invertirPalabras(texto)</strong> que invierta el orden de las palabras y <strong>factorial(n)</strong> que calcule n!.",
                     starter: `function invertirPalabras(texto) {
   // divide, invierte y vuelve a unir
 }
@@ -619,14 +578,12 @@ console.log(factorial(5));`,
                         { code: "for (let i = 1; i <= numero; i++) resultado *= i;", explain: "// factorial" }
                     ],
                     validate(code) {
-                        try {
-                            const fnI = new Function(code + '; return invertirPalabras;')();
-                            const fnF = new Function(code + '; return factorial;')();
-                            return fnI('hola que tal') === 'tal que hola' && fnF(5) === 120;
-                        } catch { return false; }
+                        new Function(code)();
+                        const fnI = new Function(code + '; return invertirPalabras;')();
+                        const fnF = new Function(code + '; return factorial;')();
+                        return fnI('hola que tal') === 'tal que hola' && fnF(5) === 120;
                     }
                 },
-                // ── 06-objects.js ──
                 {
                     id: "m1e20",
                     title: "Objetos · Crear, modificar e iterar",
@@ -649,9 +606,8 @@ console.log(factorial(5));`,
                         { code: "for (let clave in objeto) console.log(clave + ': ' + objeto[clave]);", explain: "// for...in" }
                     ],
                     validate(code) {
-                        try {
-                            return code.includes('delete') && code.includes('for') && code.includes('in');
-                        } catch { return false; }
+                        new Function(code)();
+                        return code.includes('delete') && code.includes('for') && code.includes('in');
                     }
                 },
                 {
@@ -674,9 +630,8 @@ console.log(factorial(5));`,
                         { code: "objeto.saludar();", explain: "// llamada al método" }
                     ],
                     validate(code) {
-                        try {
-                            return code.includes('this.nombre') && code.includes('this.ciudad') && code.includes('saludar');
-                        } catch { return false; }
+                        new Function(code)();
+                        return code.includes('this.nombre') && code.includes('this.ciudad') && code.includes('saludar');
                     }
                 },
                 {
@@ -697,9 +652,8 @@ console.log(obj1 === obj2);
                         { code: "console.log(obj1 === obj2);  // false", explain: "// idem con igualdad estricta" }
                     ],
                     validate(code) {
-                        try {
-                            return code.includes('===') && code.includes('==') && code.includes('obj');
-                        } catch { return false; }
+                        new Function(code)();
+                        return code.includes('===') && code.includes('==') && code.includes('obj');
                     }
                 }
             ]
@@ -786,7 +740,6 @@ console.log(obj1 === obj2);
             ],
             exercises: [
 [
-                // ── 01.html ──
                 {
                     id: "m2e1",
                     title: "DOM · classList.add y estilo en línea",
@@ -804,7 +757,6 @@ console.log(obj1 === obj2);
                         return code.includes('classList') && code.includes('.add(') && code.includes('borderRadius') && code.includes('.style');
                     }
                 },
-                // ── 02.html ──
                 {
                     id: "m2e2",
                     title: "DOM · Formulario, .value y backgroundColor",
@@ -827,7 +779,6 @@ const varApellidos = formulario.apellidos.value;
                         return code.includes('.value') && code.includes('backgroundColor') && code.includes('`');
                     }
                 },
-                // ── 03.html ──
                 {
                     id: "m2e3",
                     title: "DOM · classList.toggle para seleccionar artículo",
@@ -843,7 +794,6 @@ const varApellidos = formulario.apellidos.value;
                         return code.includes('getElementById') && code.includes('toggle') && code.includes("'seleccionado'");
                     }
                 },
-                // ── 04.html ──
                 {
                     id: "m2e4",
                     title: "DOM · querySelectorAll + forEach",
@@ -863,7 +813,6 @@ const varApellidos = formulario.apellidos.value;
                         return code.includes('querySelectorAll') && code.includes('forEach') && code.includes('classList') && code.includes('innerHTML');
                     }
                 },
-                // ── 05.html ──
                 {
                     id: "m2e5",
                     title: "DOM · querySelectorAll + forEach + classList.remove",
@@ -883,7 +832,6 @@ const varApellidos = formulario.apellidos.value;
                         return code.includes('forEach') && code.includes('.add(') && code.includes('.remove(') && code.includes('[0]');
                     }
                 },
-                // ── 06.html ──
                 {
                     id: "m2e6",
                     title: "DOM · dataset con filas de tabla",
@@ -907,7 +855,6 @@ filas.forEach(fila => {
                         return code.includes('dataset') && code.includes('.children') && code.includes('.style');
                     }
                 },
-                // ── 07.html ──
                 {
                     id: "m2e7",
                     title: "DOM · Generación dinámica de contenido con dataset",
@@ -1021,7 +968,6 @@ const resultado = document.getElementById('resultado');
             ],
             exercises: [
 [
-                // ── 01.html ──
                 {
                     id: "m3e1",
                     title: "Eventos · addEventListener y classList.toggle",
@@ -1046,7 +992,6 @@ caja.addEventListener('click', (event) => {
                         return code.includes('addEventListener') && code.includes('click') && code.includes('toggle') && code.includes("'activa'");
                     }
                 },
-                // ── 02.html ──
                 {
                     id: "m3e2",
                     title: "Eventos · mouseenter/mouseleave y closest()",
