@@ -152,192 +152,557 @@
                 }
             ],
             exercises: [
-                // ── 01-strings ──
+[
+                // ── 01-strings.js ──
                 {
                     id: "m1e1",
-                    title: "Strings — Concatenación e Interpolación",
+                    title: "Strings · Concatenación y longitud",
                     pts: 10,
-                    desc: "Escribe una función <strong>slugify(text)</strong> que reciba un string y devuelva la versión 'slug': todo en minúsculas y los espacios reemplazados por guiones. Ej: <em>slugify('Hola Mundo')</em> → <em>'hola-mundo'</em>.",
-                    starter: `function slugify(text) {
-  // 1. Pasa a minúsculas
-  // 2. Sustituye espacios por '-'
-  return '';
-}
-console.log(slugify('Hola Mundo'));`,
-                    hint: "Usa .toLowerCase() y luego .replaceAll(' ', '-') o .replace(/ /g, '-').",
+                    desc: "Declara dos constantes <strong>cadena1 = "Hola"</strong> y <strong>cadena2 = "Mundo"</strong>. Úsalas para mostrar por consola el texto unido con un espacio. Luego muestra la longitud de la cadena <em>"JavaScript"</em>.",
+                    starter: `const cadena1 = "Hola";
+const cadena2 = "Mundo";
+// 1. Muestra cadena1 + espacio + cadena2 por consola
+// 2. Muestra la longitud de "JavaScript"`,
+                    hint: "Usa console.log(cadena1 + ' ' + cadena2) y console.log('JavaScript'.length).",
                     solution: [
-                        { code: "text.toLowerCase()", explain: "// convierte a minúsculas" },
-                        { code: ".replaceAll(' ', '-')", explain: "// sustituye todos los espacios" }
+                        { code: "console.log(cadena1 + ' ' + cadena2);", explain: "// concatenación con +" },
+                        { code: "console.log('JavaScript'.length);", explain: "// propiedad .length" }
                     ],
                     validate(code) {
                         try {
-                            const fn = new Function(code + '; return slugify;')();
-                            return fn('Hola Mundo') === 'hola-mundo' && fn('JS es genial') === 'js-es-genial';
+                            if (code.includes('cadena1') && code.includes('cadena2') && code.includes('.length')) return true;
+                            const logs = [];
+                            const orig = console.log;
+                            console.log = (...a) => { logs.push(a.join(' ')); orig(...a); };
+                            new Function(code)();
+                            console.log = orig;
+                            return logs.some(l => l.includes('Hola Mundo')) && logs.some(l => l === '10');
                         } catch { return false; }
                     }
                 },
                 {
                     id: "m1e2",
-                    title: "Fibonacci: N primeros términos",
-                    pts: 15,
-                    desc: "Escribe una función <strong>fibonacci(n)</strong> que devuelva un array con los primeros n términos de la serie de Fibonacci. Ej: fibonacci(6) → [0,1,1,2,3,5].",
-                    starter: `function fibonacci(n) {
-  // La serie empieza en [0, 1]
-  // Cada término es la suma de los dos anteriores
-  return [];
-}
-console.log(fibonacci(6));`,
-                    hint: "Inicializa el array con [0,1] y en un bucle for empezando en i=2, añade arr[i-1] + arr[i-2].",
+                    title: "Strings · Primer y último carácter",
+                    pts: 10,
+                    desc: "Dada la cadena <strong>texto = "Programar"</strong>, muestra por consola el primer carácter y el último carácter separados por un espacio. Resultado esperado: <em>P r</em>.",
+                    starter: `const texto = "Programar";
+// Muestra el primer y último carácter separados por un espacio`,
+                    hint: "El primer carácter es texto[0]. El último es texto[texto.length - 1] o texto.at(-1).",
                     solution: [
-                        { code: "let arr = [0, 1]", explain: "// base de la serie" },
-                        { code: "for (let i = 2; i < n; i++)", explain: "// itera desde el tercero" },
-                        { code: "arr.push(arr[i-1] + arr[i-2])", explain: "// suma los dos anteriores" }
+                        { code: "console.log(texto[0] + ' ' + texto[texto.length - 1]);", explain: "// acceso por índice" },
+                        { code: "// alternativa: texto.at(-1)", explain: "// índice negativo" }
                     ],
                     validate(code) {
                         try {
-                            const fn = new Function(code + '; return fibonacci;')();
-                            const r = fn(6);
-                            return JSON.stringify(r) === JSON.stringify([0, 1, 1, 2, 3, 5]);
+                            if (code.includes('texto[0]') && (code.includes('texto.length') || code.includes('.at(-1)'))) return true;
+                            const logs = [];
+                            const orig = console.log;
+                            console.log = (...a) => { logs.push(a.join(' ')); orig(...a); };
+                            new Function(code)();
+                            console.log = orig;
+                            return logs.some(l => l.trim() === 'P r');
                         } catch { return false; }
                     }
                 },
                 {
                     id: "m1e3",
-                    title: "Filtrar duplicados con Set",
-                    pts: 10,
-                    desc: "Escribe una función <strong>unico(arr)</strong> que reciba un array y devuelva un nuevo array sin elementos repetidos, usando <em>Set</em>. Ej: unico([1,2,2,3,1]) → [1,2,3].",
-                    starter: `function unico(arr) {
-  // Usa new Set() y Array.from()
-}
-console.log(unico([1, 2, 2, 3, 1]));`,
-                    hint: "Un Set elimina duplicados automáticamente. Luego convierte con Array.from(set).",
+                    title: "Strings · Mayúsculas y minúsculas",
+                    pts: 8,
+                    desc: "Dada una cadena <strong>texto = "Javascript"</strong>, muestra por consola su versión en minúsculas y en mayúsculas.",
+                    starter: `const texto = "Javascript";
+// toLowerCase
+// toUpperCase`,
+                    hint: "Usa texto.toLowerCase() y texto.toUpperCase().",
                     solution: [
-                        { code: "return Array.from(new Set(arr));", explain: "// Set elimina dups, Array.from lo convierte" }
+                        { code: "console.log(texto.toLowerCase());", explain: "// todo en minúsculas" },
+                        { code: "console.log(texto.toUpperCase());", explain: "// todo en mayúsculas" }
                     ],
                     validate(code) {
                         try {
-                            const fn = new Function(code + '; return unico;')();
-                            return JSON.stringify(fn([1, 2, 2, 3, 1])) === JSON.stringify([1, 2, 3]);
+                            return code.includes('toLowerCase') && code.includes('toUpperCase');
                         } catch { return false; }
                     }
                 },
                 {
                     id: "m1e4",
-                    title: "Vocales en un string",
+                    title: "Strings · Template literals e interpolación",
                     pts: 10,
-                    desc: "Escribe una función <strong>contarVocales(texto)</strong> que devuelva cuántas vocales (a,e,i,o,u — mayúsculas y minúsculas) tiene el string. Ej: contarVocales('Hola') → 2.",
-                    starter: `function contarVocales(texto) {
-  const vocales = 'aeiouAEIOU';
-  let contador = 0;
-  // Recorre cada letra y comprueba si es vocal
-  return contador;
-}
-console.log(contarVocales('Hola que tal'));`,
-                    hint: "Usa for...of para recorrer las letras y vocales.includes(letra) para comprobar.",
+                    desc: "Declara <strong>const nombre = "Ana"</strong> y <strong>const edad = 20</strong>. Usa un <em>template literal</em> para mostrar por consola: <em>Ana tiene 20 años</em>.",
+                    starter: `const nombre = "Ana";
+const edad = 20;
+// Usa template literal con \${} para mostrar el mensaje`,
+                    hint: "Usa backticks: console.log(\`\${nombre} tiene \${edad} años\`).",
                     solution: [
-                        { code: "for (let letra of texto)", explain: "// itera cada carácter" },
-                        { code: "if (vocales.includes(letra)) contador++", explain: "// comprueba si es vocal" }
+                        { code: "console.log(\`\${nombre} tiene \${edad} años\`);", explain: "// template literal con interpolación" }
                     ],
                     validate(code) {
                         try {
-                            const fn = new Function(code + '; return contarVocales;')();
-                            return fn('Hola') === 2 && fn('JavaScript') === 3;
+                            if (code.includes('\${nombre}') && code.includes('\${edad}')) return true;
+                            const logs = [];
+                            const orig = console.log;
+                            console.log = (...a) => { logs.push(a.join(' ')); orig(...a); };
+                            new Function(code)();
+                            console.log = orig;
+                            return logs.some(l => l.includes('Ana') && l.includes('20'));
                         } catch { return false; }
                     }
                 },
                 {
                     id: "m1e5",
-                    title: "Suma de pares con filter",
-                    pts: 12,
-                    desc: "Escribe una función <strong>sumaPares(nums)</strong> que devuelva la suma de todos los números PARES del array. Ej: sumaPares([1,2,4,5,6]) → 12.",
-                    starter: `function sumaPares(nums) {
-  // Filtra los pares y súmalos
-  return 0;
-}
-console.log(sumaPares([1, 2, 4, 5, 6]));`,
-                    hint: "Usa .filter(n => n % 2 === 0) para quedarte sólo con los pares, y después .reduce para sumarlos.",
+                    title: "Strings · Reemplazar espacios por guiones",
+                    pts: 10,
+                    desc: "Dada la cadena <em>"Aprender JavaScript es divertido"</em>, muestra por consola la versión con todos los espacios reemplazados por guiones: <em>Aprender-JavaScript-es-divertido</em>.",
+                    starter: `const texto = "Aprender JavaScript es divertido";
+// Reemplaza todos los espacios por guiones`,
+                    hint: "Usa .replaceAll(' ', '-') o .replace(/ /g, '-').",
                     solution: [
-                        { code: "nums.filter(n => n % 2 === 0)", explain: "// solo pares" },
-                        { code: ".reduce((acc, n) => acc + n, 0)", explain: "// acumula la suma" }
+                        { code: "console.log(texto.replaceAll(' ', '-'));", explain: "// replaceAll reemplaza todas las ocurrencias" }
                     ],
                     validate(code) {
                         try {
-                            const fn = new Function(code + '; return sumaPares;')();
-                            return fn([1, 2, 4, 5, 6]) === 12 && fn([1, 3, 5]) === 0;
+                            return (code.includes('replaceAll') || code.includes('replace')) && (code.includes("'-'") || code.includes('"-"'));
                         } catch { return false; }
                     }
                 },
                 {
                     id: "m1e6",
-                    title: "Invertir palabras de un string",
-                    pts: 12,
-                    desc: "Escribe una función <strong>invertirPalabras(texto)</strong> que devuelva el mismo texto con el orden de las palabras invertido. Ej: invertirPalabras('hola que tal') → 'tal que hola'.",
-                    starter: `function invertirPalabras(texto) {
-  // Divide, invierte y vuelve a unir
-  return '';
-}
-console.log(invertirPalabras('hola que tal'));`,
-                    hint: "Usa .split(' ') para obtener un array, .reverse() para invertirlo y .join(' ') para unirlo.",
+                    title: "Strings · includes y comparación de longitudes",
+                    pts: 8,
+                    desc: "1) Comprueba si la cadena <em>"Estoy aprendiendo JavaScript"</em> contiene la palabra <em>'JavaScript'</em> y muéstralo en consola. 2) Comprueba si <em>"sol"</em> y <em>"mar"</em> tienen la misma longitud.",
+                    starter: `const texto = "Estoy aprendiendo JavaScript";
+// 1. ¿Incluye "JavaScript"?
+
+const str1 = "sol";
+const str2 = "mar";
+// 2. ¿Tienen la misma longitud?`,
+                    hint: "Usa texto.includes('JavaScript') y str1.length === str2.length.",
                     solution: [
-                        { code: "texto.split(' ')", explain: "// divide en palabras" },
-                        { code: ".reverse()", explain: "// invierte el array" },
-                        { code: ".join(' ')", explain: "// une con espacios" }
+                        { code: "console.log(texto.includes('JavaScript'));", explain: "// devuelve true" },
+                        { code: "console.log(str1.length === str2.length);", explain: "// compara longitudes" }
                     ],
                     validate(code) {
                         try {
-                            const fn = new Function(code + '; return invertirPalabras;')();
-                            return fn('hola que tal') === 'tal que hola';
+                            return code.includes('.includes(') && code.includes('.length');
                         } catch { return false; }
                     }
                 },
+                // ── 02-condicionales.js ──
                 {
                     id: "m1e7",
-                    title: "¿Es primo?",
-                    pts: 15,
-                    desc: "Escribe una función <strong>esPrimo(n)</strong> que devuelva true si n es un número primo, y false en caso contrario. Un primo es divisible sólo por 1 y por sí mismo.",
-                    starter: `function esPrimo(n) {
-  if (n <= 1) return false;
-  // Comprueba si algún número entre 2 y n-1 lo divide
-  return true;
-}
-console.log(esPrimo(7));  // true
-console.log(esPrimo(9));  // false`,
-                    hint: "Usa un bucle for desde 2 hasta n-1. Si n % i === 0 para algún i, no es primo.",
+                    title: "Condicionales · Login con if/else",
+                    pts: 10,
+                    desc: "Declara <strong>const usuario = "admin"</strong> y <strong>const pass = 1234</strong>. Usa un <em>if/else</em> para mostrar <em>'Acceso permitido'</em> si coinciden con los valores correctos, o <em>'Acceso denegado'</em> si no.",
+                    starter: `const usuario = "admin";
+const pass = 1234;
+// if usuario === "admin" && pass === 1234 → "Acceso permitido"
+// else → "Acceso denegado"`,
+                    hint: "Usa if (usuario === 'admin' && pass === 1234) { ... } else { ... }",
                     solution: [
-                        { code: "for (let i = 2; i < n; i++)", explain: "// prueba divisores" },
-                        { code: "if (n % i === 0) return false", explain: "// divisible → no primo" },
-                        { code: "return true", explain: "// ningún divisor encontrado" }
+                        { code: "if (usuario === 'admin' && pass === 1234) {", explain: "// condición doble con &&" },
+                        { code: "  console.log('Acceso permitido');", explain: "" },
+                        { code: "} else { console.log('Acceso denegado'); }", explain: "" }
                     ],
                     validate(code) {
                         try {
-                            const fn = new Function(code + '; return esPrimo;')();
-                            return fn(7) === true && fn(9) === false && fn(1) === false && fn(2) === true;
+                            return code.includes('&&') && code.includes('if') && code.includes('else');
                         } catch { return false; }
                     }
                 },
                 {
                     id: "m1e8",
-                    title: "Factorial de un número",
+                    title: "Condicionales · Positivo, negativo o cero",
                     pts: 10,
-                    desc: "Escribe una función <strong>factorial(n)</strong> que calcule n! (5! = 5×4×3×2×1 = 120). Ej: factorial(5) → 120.",
-                    starter: `function factorial(n) {
-  let resultado = 1;
-  // Multiplica desde 1 hasta n
-  return resultado;
-}
-console.log(factorial(5));`,
-                    hint: "Usa un bucle for desde 1 hasta n y multiplica: resultado *= i.",
+                    desc: "Dado un número, usa <em>if / else if / else</em> para imprimir si es positivo, negativo o cero.",
+                    starter: `const numero = -5;
+// if → positivo
+// else if → negativo
+// else → cero`,
+                    hint: "if (numero > 0) ... else if (numero < 0) ... else ...",
                     solution: [
-                        { code: "for (let i = 1; i <= n; i++)", explain: "// de 1 a n" },
-                        { code: "resultado *= i", explain: "// acumula el producto" }
+                        { code: "if (numero > 0) console.log('positivo');", explain: "" },
+                        { code: "else if (numero < 0) console.log('negativo');", explain: "" },
+                        { code: "else console.log('cero');", explain: "" }
                     ],
                     validate(code) {
                         try {
-                            const fn = new Function(code + '; return factorial;')();
-                            return fn(5) === 120 && fn(0) === 1 && fn(3) === 6;
+                            return code.includes('if') && code.includes('else if') && code.includes('else');
+                        } catch { return false; }
+                    }
+                },
+                {
+                    id: "m1e9",
+                    title: "Condicionales · Operador ternario (adulto/menor)",
+                    pts: 8,
+                    desc: "Dada una variable <strong>edad</strong>, usa el <em>operador ternario</em> para asignar <em>'menor'</em> o <em>'adulto'</em> y muéstralo en consola.",
+                    starter: `const edad = 17;
+// let categoria = edad < 18 ? ... : ...`,
+                    hint: "let categoria = edad < 18 ? 'menor' : 'adulto';",
+                    solution: [
+                        { code: "let categoria = edad < 18 ? 'menor' : 'adulto';", explain: "// operador ternario" },
+                        { code: "console.log(categoria);", explain: "" }
+                    ],
+                    validate(code) {
+                        try {
+                            return code.includes('?') && code.includes(':') && (code.includes("'menor'") || code.includes('"menor"'));
+                        } catch { return false; }
+                    }
+                },
+                {
+                    id: "m1e10",
+                    title: "Condicionales · switch para estaciones",
+                    pts: 12,
+                    desc: "Dado un <strong>mes</strong> (ej. <em>'marzo'</em>), usa un <em>switch</em> para determinar la estación del año y mostrarlo en consola. Incluye <em>default</em> para meses inválidos.",
+                    starter: `let mes = "marzo";
+// switch(mes) {
+//   case "marzo": case "abril": case "mayo": → "Primavera"
+//   case "junio": case "julio": case "agosto": → "Verano"
+//   case "septiembre": case "octubre": case "noviembre": → "Otoño"
+//   case "diciembre": case "enero": case "febrero": → "Invierno"
+//   default: → "Mes no válido"
+// }`,
+                    hint: "Agrupa varios case seguidos para que todos vayan al mismo console.log. No olvides break.",
+                    solution: [
+                        { code: "switch(mes) {", explain: "" },
+                        { code: "  case 'marzo': case 'abril': case 'mayo':", explain: "// varios case comparten salida" },
+                        { code: "    console.log('Primavera'); break;", explain: "" },
+                        { code: "  default: console.log('Mes no válido');", explain: "" },
+                        { code: "}", explain: "" }
+                    ],
+                    validate(code) {
+                        try {
+                            return code.includes('switch') && code.includes('case') && code.includes('break') && code.includes('default');
+                        } catch { return false; }
+                    }
+                },
+                // ── 03-estructuras.js ──
+                {
+                    id: "m1e11",
+                    title: "Estructuras · Array y métodos push/unshift/splice",
+                    pts: 12,
+                    desc: "Crea un array con 5 animales. Añade uno al principio con <em>unshift</em>, otro al final con <em>push</em> y elimina el que está en tercera posición con <em>splice</em>. Muestra el array final.",
+                    starter: `let animales = ["perro", "gato", "conejo", "caballo", "tortuga"];
+// 1. unshift → añade "leon" al principio
+// 2. push → añade "pez" al final
+// 3. splice → elimina el de índice 2`,
+                    hint: "animales.unshift('leon'), animales.push('pez'), animales.splice(2, 1).",
+                    solution: [
+                        { code: "animales.unshift('leon');", explain: "// añade al principio" },
+                        { code: "animales.push('pez');", explain: "// añade al final" },
+                        { code: "animales.splice(2, 1);", explain: "// elimina 1 elemento en índice 2" }
+                    ],
+                    validate(code) {
+                        try {
+                            return code.includes('unshift') && code.includes('push') && code.includes('splice');
+                        } catch { return false; }
+                    }
+                },
+                {
+                    id: "m1e12",
+                    title: "Estructuras · Set (valores únicos)",
+                    pts: 10,
+                    desc: "Crea un <em>Set</em> con 5 libros. Añade dos más (uno repetido). Elimina uno concreto con <em>delete</em>. Muestra el resultado final.",
+                    starter: `let libros = new Set(["Quijote", "1984", "El principito", "La odisea", "El señor de los anillos"]);
+// 1. add → "Cien años de soledad"
+// 2. add → "1984"  (repetido, no se añade)
+// 3. delete → "1984"`,
+                    hint: "Set.add() y Set.delete(). Los duplicados se ignoran automáticamente.",
+                    solution: [
+                        { code: "libros.add('Cien años de soledad');", explain: "// añade elemento" },
+                        { code: "libros.add('1984');", explain: "// duplicado, no hace efecto" },
+                        { code: "libros.delete('1984');", explain: "// elimina '1984'" }
+                    ],
+                    validate(code) {
+                        try {
+                            return code.includes('new Set') && code.includes('.add(') && code.includes('.delete(');
+                        } catch { return false; }
+                    }
+                },
+                {
+                    id: "m1e13",
+                    title: "Estructuras · Map (número de mes → nombre)",
+                    pts: 12,
+                    desc: "Crea un <em>Map</em> que asocie el número del mes a su nombre (1→'enero', … 12→'diciembre'). Comprueba si el mes número 5 existe y muestra su valor. Usa el ternario para mensajes de error si el mes no existe.",
+                    starter: `let meses = new Map([
+  [1, "enero"], [2, "febrero"], [3, "marzo"],
+  [4, "abril"], [5, "mayo"], [6, "junio"],
+  [7, "julio"], [8, "agosto"], [9, "septiembre"],
+  [10, "octubre"], [11, "noviembre"], [12, "diciembre"]
+]);
+let numeroMes = 5;
+// Comprueba con .has() y muestra el valor con .get() o "Mes no válido"`,
+                    hint: "meses.has(numeroMes) ? meses.get(numeroMes) : 'Mes no válido'",
+                    solution: [
+                        { code: "let msg = meses.has(numeroMes) ? meses.get(numeroMes) : 'Mes no válido';", explain: "// ternario" },
+                        { code: "console.log(msg);", explain: "" }
+                    ],
+                    validate(code) {
+                        try {
+                            return code.includes('new Map') && code.includes('.has(') && code.includes('.get(');
+                        } catch { return false; }
+                    }
+                },
+                // ── 04-bucles.js ──
+                {
+                    id: "m1e14",
+                    title: "Bucles · for, suma y pares",
+                    pts: 10,
+                    desc: "1) Con un bucle <em>for</em>, suma todos los números del 1 al 100 y muestra el resultado. 2) Imprime todos los números pares entre 1 y 50.",
+                    starter: `// 1. Suma del 1 al 100
+let suma = 0;
+for (let i = 1; i <= 100; i++) {
+  // acumula la suma
+}
+console.log(suma);
+
+// 2. Pares del 1 al 50
+for (let i = 2; i <= 50; i += 2) {
+  // muestra i
+}`,
+                    hint: "Dentro del bucle: suma += i. Para los pares, empieza en 2 y suma 2 en cada iteración.",
+                    solution: [
+                        { code: "let suma = 0; for (let i = 1; i <= 100; i++) suma += i;", explain: "// acumulador" },
+                        { code: "for (let i = 2; i <= 50; i += 2) console.log(i);", explain: "// incremento de 2" }
+                    ],
+                    validate(code) {
+                        try {
+                            return code.includes('for') && code.includes('suma') && code.includes('i++') && (code.includes('%') || code.includes('+= 2'));
+                        } catch { return false; }
+                    }
+                },
+                {
+                    id: "m1e15",
+                    title: "Bucles · for…of y while",
+                    pts: 10,
+                    desc: "Dado el array <em>[1, 2, 3, 4, 5, 6, 10, 12]</em>, usa un <em>while</em> para multiplicar todos sus valores y mostrar el producto. Luego usa un bucle <em>for…of</em> para imprimir cada nombre de <em>["Pepito", "Fulanito", "Menganito"]</em>.",
+                    starter: `const numeros = [1, 2, 3, 4, 5, 6, 10, 12];
+let producto = 1;
+let i = 0;
+// while para multiplicar
+
+const nombres = ["Pepito", "Fulanito", "Menganito"];
+// for...of para imprimir cada nombre`,
+                    hint: "while (i < numeros.length) { producto *= numeros[i]; i++; }  y  for (let n of nombres) console.log(n);",
+                    solution: [
+                        { code: "while (i < numeros.length) { producto *= numeros[i]; i++; }", explain: "// bucle while" },
+                        { code: "for (let n of nombres) console.log(n);", explain: "// for...of" }
+                    ],
+                    validate(code) {
+                        try {
+                            return code.includes('while') && code.includes('for') && code.includes('of');
+                        } catch { return false; }
+                    }
+                },
+                {
+                    id: "m1e16",
+                    title: "Bucles · Fibonacci (10 términos)",
+                    pts: 15,
+                    desc: "Usa un bucle para generar los primeros 10 números de la sucesión de Fibonacci (0, 1, 1, 2, 3, 5, 8…). Puedes usar la desestructuración: <code>[a, b] = [b, a + b]</code>.",
+                    starter: `let a = 0;
+let b = 1;
+console.log(a);
+console.log(b);
+for (let i = 3; i <= 10; i++) {
+  // calcula el siguiente y muéstralo
+  // actualiza a y b
+}`,
+                    hint: "Dentro del bucle: let siguiente = a + b; console.log(siguiente); [a, b] = [b, siguiente];",
+                    solution: [
+                        { code: "let siguiente = a + b;", explain: "// suma los dos anteriores" },
+                        { code: "console.log(siguiente);", explain: "" },
+                        { code: "[a, b] = [b, siguiente];", explain: "// desestructuración para avanzar" }
+                    ],
+                    validate(code) {
+                        try {
+                            return code.includes('for') && (code.includes('[a, b]') || (code.includes('a =') && code.includes('b =')));
+                        } catch { return false; }
+                    }
+                },
+                // ── 05-funciones.js ──
+                {
+                    id: "m1e17",
+                    title: "Funciones · Suma, mayor número y vocales",
+                    pts: 12,
+                    desc: "Crea tres funciones: <strong>suma(a, b)</strong> que devuelva la suma; <strong>mayorNumero(arr)</strong> que devuelva el número mayor del array; <strong>contarVocales(texto)</strong> que cuente las vocales.",
+                    starter: `// 1. función suma
+function suma(a, b) {
+  return a + b;
+}
+
+// 2. función mayorNumero
+function mayorNumero(listaNumeros) {
+  // recorre el array y devuelve el mayor
+}
+
+// 3. función contarVocales
+function contarVocales(texto) {
+  const vocales = 'aeiouAEIOU';
+  // cuenta y devuelve
+}
+
+console.log(suma(2, 3));
+console.log(mayorNumero([1, 2, 5, 3]));
+console.log(contarVocales('Hola'));`,
+                    hint: "Para mayorNumero usa un let mayor = arr[0] y un for...of. Para vocales usa for...of + vocales.includes(letra).",
+                    solution: [
+                        { code: "function suma(a, b) { return a + b; }", explain: "" },
+                        { code: "let mayor = arr[0]; for (let n of arr) if (n > mayor) mayor = n;", explain: "" },
+                        { code: "for (let l of texto) if (vocales.includes(l)) contador++;", explain: "" }
+                    ],
+                    validate(code) {
+                        try {
+                            const fn = new Function(code + '; return typeof suma === "function" && typeof mayorNumero === "function" && typeof contarVocales === "function";')();
+                            if (!fn) return false;
+                            const fnSuma = new Function(code + '; return suma;')();
+                            const fnMayor = new Function(code + '; return mayorNumero;')();
+                            const fnVocales = new Function(code + '; return contarVocales;')();
+                            return fnSuma(2, 3) === 5 && fnMayor([1, 2, 5, 3]) === 5 && fnVocales('Hola') === 2;
+                        } catch { return false; }
+                    }
+                },
+                {
+                    id: "m1e18",
+                    title: "Funciones · Elementoss comunes, sumaPares y elevarCuadrado",
+                    pts: 15,
+                    desc: "Crea tres funciones usando métodos funcionales: <strong>elementosComunes(a, b)</strong> (filter + includes); <strong>sumaPares(nums)</strong> (forEach o filter + reduce); <strong>elevarCuadrado(nums)</strong> (map).",
+                    starter: `function elementosComunes(array1, array2) {
+  // usa filter e includes
+}
+
+function sumaPares(listaNumeros) {
+  // suma los pares
+}
+
+function elevarCuadrado(listaNumeros) {
+  // devuelve nuevo array con cada número al cuadrado
+}
+
+console.log(elementosComunes([1,2,3],[1,4,3]));
+console.log(sumaPares([1,2,4,5,6]));
+console.log(elevarCuadrado([1,2,3]));`,
+                    hint: "elementosComunes: array1.filter(e => array2.includes(e)). elevarCuadrado: nums.map(n => n ** 2).",
+                    solution: [
+                        { code: "return array1.filter(e => array2.includes(e));", explain: "// elementosComunes" },
+                        { code: "return nums.filter(n => n % 2 === 0).reduce((s, n) => s + n, 0);", explain: "// sumaPares" },
+                        { code: "return listaNumeros.map(n => n ** 2);", explain: "// elevarCuadrado" }
+                    ],
+                    validate(code) {
+                        try {
+                            const fnC = new Function(code + '; return elementosComunes;')();
+                            const fnP = new Function(code + '; return sumaPares;')();
+                            const fnQ = new Function(code + '; return elevarCuadrado;')();
+                            return JSON.stringify(fnC([1,2,3],[1,4,3])) === '[1,3]'
+                                && fnP([1,2,4,5,6]) === 12
+                                && JSON.stringify(fnQ([1,2,3])) === '[1,4,9]';
+                        } catch { return false; }
+                    }
+                },
+                {
+                    id: "m1e19",
+                    title: "Funciones · invertirPalabras y factorial",
+                    pts: 12,
+                    desc: "Crea <strong>invertirPalabras(texto)</strong> que invierta el orden de las palabras (ej. <em>'hola que tal'</em> → <em>'tal que hola'</em>) y <strong>factorial(n)</strong> que calcule n! (ej. <em>factorial(5) → 120</em>).",
+                    starter: `function invertirPalabras(texto) {
+  // divide, invierte y vuelve a unir
+}
+
+function factorial(numero) {
+  let resultado = 1;
+  // for de 1 hasta numero multiplicando
+  return resultado;
+}
+
+console.log(invertirPalabras("hola que tal"));
+console.log(factorial(5));`,
+                    hint: "invertirPalabras: texto.split(' ').reverse().join(' '). factorial: for (let i = 1; i <= numero; i++) resultado *= i;",
+                    solution: [
+                        { code: "return texto.split(' ').reverse().join(' ');", explain: "// invertirPalabras" },
+                        { code: "for (let i = 1; i <= numero; i++) resultado *= i;", explain: "// factorial" }
+                    ],
+                    validate(code) {
+                        try {
+                            const fnI = new Function(code + '; return invertirPalabras;')();
+                            const fnF = new Function(code + '; return factorial;')();
+                            return fnI('hola que tal') === 'tal que hola' && fnF(5) === 120;
+                        } catch { return false; }
+                    }
+                },
+                // ── 06-objects.js ──
+                {
+                    id: "m1e20",
+                    title: "Objetos · Crear, modificar e iterar",
+                    pts: 12,
+                    desc: "Crea un objeto con 3 propiedades (nombre, edad, ciudad). Accede a sus valores, añade una propiedad nueva, elimina una con <em>delete</em>, y recorre todas las propiedades con <em>for…in</em>.",
+                    starter: `let objeto = {
+  nombre: "Pepito",
+  edad: 25,
+  ciudad: "Vigo"
+};
+
+// Accede y muestra las propiedades
+// Añade: objeto.profesion = "Programador"
+// Elimina: delete objeto.edad
+// Itera con for...in`,
+                    hint: "Accede con obj.prop o obj['prop']. Itera con for (let clave in objeto) { console.log(clave, objeto[clave]); }",
+                    solution: [
+                        { code: "objeto.profesion = 'Programador';", explain: "// añadir propiedad" },
+                        { code: "delete objeto.edad;", explain: "// eliminar propiedad" },
+                        { code: "for (let clave in objeto) console.log(clave + ': ' + objeto[clave]);", explain: "// for...in" }
+                    ],
+                    validate(code) {
+                        try {
+                            return code.includes('delete') && code.includes('for') && code.includes('in');
+                        } catch { return false; }
+                    }
+                },
+                {
+                    id: "m1e21",
+                    title: "Objetos · Métodos y this",
+                    pts: 12,
+                    desc: "Añade una función <em>saludar</em> al objeto que use <code>this</code> para mostrar: <em>'Hola, me llamo [nombre] y vivo en [ciudad]'</em>. Invócala.",
+                    starter: `let objeto = {
+  nombre: "Pepito",
+  ciudad: "Vigo"
+};
+
+// Añade un método saludar que use this.nombre y this.ciudad
+// Invoca objeto.saludar()`,
+                    hint: "objeto.saludar = function() { console.log(\`Hola, me llamo \${this.nombre} y vivo en \${this.ciudad}\`); }",
+                    solution: [
+                        { code: "objeto.saludar = function() {", explain: "// función como propiedad" },
+                        { code: "  console.log(\`Hola, me llamo \${this.nombre} y vivo en \${this.ciudad}\`);", explain: "// this referencia al objeto" },
+                        { code: "};", explain: "" },
+                        { code: "objeto.saludar();", explain: "// llamada al método" }
+                    ],
+                    validate(code) {
+                        try {
+                            return code.includes('this.nombre') && code.includes('this.ciudad') && code.includes('saludar');
+                        } catch { return false; }
+                    }
+                },
+                {
+                    id: "m1e22",
+                    title: "Objetos · Comparación por referencia",
+                    pts: 8,
+                    desc: "Crea dos objetos con las mismas propiedades y compáralos con <em>==</em> y <em>===</em>. Muestra los resultados por consola y explica el resultado con un comentario.",
+                    starter: `let obj1 = { id: 1, nombre: "Fulanito" };
+let obj2 = { id: 1, nombre: "Fulanito" };
+
+// ¿Son iguales?
+console.log(obj1 == obj2);
+console.log(obj1 === obj2);
+// ¿Por qué?`,
+                    hint: "Los objetos se comparan por referencia de memoria, no por valor. Aunque tengan el mismo contenido, son distintos objetos en memoria.",
+                    solution: [
+                        { code: "console.log(obj1 == obj2);   // false", explain: "// distintas referencias" },
+                        { code: "console.log(obj1 === obj2);  // false", explain: "// idem con igualdad estricta" }
+                    ],
+                    validate(code) {
+                        try {
+                            return code.includes('===') && code.includes('==') && code.includes('obj');
                         } catch { return false; }
                     }
                 }
+            ]
             ],
             quiz: [
                 { q: "¿Cuál es el resultado de: '5' === 5?", opts: ["true", "false", "error", "undefined"], ans: 1 },
@@ -420,140 +785,162 @@ console.log(factorial(5));`,
                 }
             ],
             exercises: [
+[
+                // ── 01.html ──
                 {
                     id: "m2e1",
-                    title: "Añadir clase con classList",
+                    title: "DOM · classList.add y estilo en línea",
                     pts: 10,
-                    desc: "Selecciona el párrafo con id <em>mensaje</em> y añádele la clase <em>resaltado</em> usando <strong>classList.add()</strong>. Después, usa <em>style</em> para aplicar <em>borderRadius: '10px'</em>.",
-                    starter: `// Hay un párrafo con id="mensaje" en la página
-const parrafo = document.getElementById('mensaje');
-
+                    desc: "Selecciona el párrafo con id <em>mensaje</em> con <code>getElementById</code>. Añádele la clase <em>'resaltado'</em> con <code>classList.add()</code>. Luego aplica <em>borderRadius: '10px'</em> con la propiedad <code>.style</code>.",
+                    starter: `const parrafo = document.getElementById('mensaje');
 // 1. Añade la clase 'resaltado'
-
-// 2. Aplica border-radius de 10px por style
-`,
+// 2. Aplica border-radius de 10px por .style`,
                     hint: "parrafo.classList.add('resaltado') y parrafo.style.borderRadius = '10px'.",
                     solution: [
-                        { code: "parrafo.classList.add('resaltado')", explain: "// añade la clase CSS" },
-                        { code: "parrafo.style.borderRadius = '10px'", explain: "// estilo en línea (camelCase)" }
+                        { code: "parrafo.classList.add('resaltado');", explain: "// añade la clase CSS" },
+                        { code: "parrafo.style.borderRadius = '10px';", explain: "// estilo en línea (camelCase)" }
                     ],
                     validate(code) {
-                        return code.includes('classList') && code.includes('add') && code.includes('borderRadius') && code.includes('.style');
+                        return code.includes('classList') && code.includes('.add(') && code.includes('borderRadius') && code.includes('.style');
                     }
                 },
+                // ── 02.html ──
                 {
                     id: "m2e2",
-                    title: "querySelector + cambio de texto",
-                    pts: 10,
-                    desc: "Usa <strong>querySelector</strong> para seleccionar el primer elemento con clase <em>.titulo</em> y cambia su <em>textContent</em> a 'JS Mastery'.",
-                    starter: `// Selecciona el primer .titulo
-const titulo = /* tu selector aquí */;
+                    title: "DOM · Formulario, .value y backgroundColor",
+                    pts: 12,
+                    desc: "Dado un formulario con id <em>form1</em> y dos inputs (nombre, apellidos), lee sus valores con <code>.value</code>. Muéstralos en consola y el nombre completo con un template literal. Cambia el color de fondo del fieldset con id <em>grupo-datos</em>.",
+                    starter: `const formulario = document.getElementById('form1');
+const varNombre = formulario.nombre.value;
+const varApellidos = formulario.apellidos.value;
 
-// Cambia el texto
-`,
-                    hint: "document.querySelector('.titulo') y luego titulo.textContent = 'JS Mastery'.",
+// 1. Muestra nombre y apellidos en consola
+// 2. Muestra el nombre completo con template literal
+// 3. Cambia backgroundColor del elemento con id 'grupo-datos'`,
+                    hint: "console.log(varNombre), console.log(varApellidos), console.log(\`Nombre completo: \${varNombre} \${varApellidos}\`), document.getElementById('grupo-datos').style.backgroundColor = 'lightblue'",
                     solution: [
-                        { code: "document.querySelector('.titulo')", explain: "// primer .titulo" },
-                        { code: "titulo.textContent = 'JS Mastery'", explain: "// cambia el texto" }
+                        { code: "console.log(varNombre);", explain: "// nombre del input" },
+                        { code: "console.log(\`Nombre completo: \${varNombre} \${varApellidos}\`);", explain: "// template literal" },
+                        { code: "document.getElementById('grupo-datos').style.backgroundColor = 'lightblue';", explain: "// estilo en línea" }
                     ],
                     validate(code) {
-                        return code.includes('querySelector') && code.includes('textContent') && code.trim().length > 20;
+                        return code.includes('.value') && code.includes('backgroundColor') && code.includes('`');
                     }
                 },
+                // ── 03.html ──
                 {
                     id: "m2e3",
-                    title: "Toggle de clase",
-                    pts: 12,
-                    desc: "Escribe código que haga <strong>toggle</strong> de la clase <em>activa</em> sobre el elemento con id <em>caja</em> cuando se hace click en el botón con id <em>btn</em>.",
-                    starter: `const caja = document.getElementById('caja');
-const btn = document.getElementById('btn');
-
-btn.addEventListener('click', () => {
-  // toggle de la clase 'activa' en caja
-});`,
-                    hint: "Dentro del listener, usa caja.classList.toggle('activa').",
+                    title: "DOM · classList.toggle para seleccionar artículo",
+                    pts: 10,
+                    desc: "Selecciona el artículo con id <em>'dos'</em> y haz toggle de la clase <em>'seleccionado'</em> sobre él usando <code>classList.toggle()</code>.",
+                    starter: `const articulo = document.getElementById('dos');
+// toggle de la clase 'seleccionado'`,
+                    hint: "articulo.classList.toggle('seleccionado')",
                     solution: [
-                        { code: "caja.classList.toggle('activa')", explain: "// añade si no tiene, quita si tiene" }
+                        { code: "articulo.classList.toggle('seleccionado');", explain: "// añade si no tiene, quita si tiene" }
                     ],
                     validate(code) {
-                        return code.includes('addEventListener') && code.includes('toggle') && code.includes('activa') && code.includes('classList');
+                        return code.includes('getElementById') && code.includes('toggle') && code.includes("'seleccionado'");
                     }
                 },
+                // ── 04.html ──
                 {
                     id: "m2e4",
-                    title: "Leer valor de un input",
-                    pts: 10,
-                    desc: "Cuando el usuario haga click en el botón con id <em>btn-leer</em>, muestra en consola el valor del input con id <em>nombre</em>.",
-                    starter: `const input = document.getElementById('nombre');
-const btn = document.getElementById('btn-leer');
+                    title: "DOM · querySelectorAll + forEach",
+                    pts: 12,
+                    desc: "Selecciona todos los elementos con clase <em>.especial</em> con <code>querySelectorAll</code>. Usa <code>forEach</code> para añadirles la clase <em>'seleccionado'</em> y concatenar el texto <em>' seleccionado'</em> a su innerHTML.",
+                    starter: `const parrafosEspeciales = document.querySelectorAll('.especial');
 
-btn.addEventListener('click', () => {
-  // Lee el valor del input y muéstralo en consola
-});`,
-                    hint: "input.value contiene el texto que el usuario ha escrito.",
+// forEach → classList.add('seleccionado') e innerHTML += ' seleccionado'`,
+                    hint: "parrafosEspeciales.forEach(p => { p.classList.add('seleccionado'); p.innerHTML += ' seleccionado'; })",
                     solution: [
-                        { code: "console.log(input.value)", explain: "// .value lee el texto del input" }
+                        { code: "parrafosEspeciales.forEach(p => {", explain: "" },
+                        { code: "  p.classList.add('seleccionado');", explain: "// añade clase" },
+                        { code: "  p.innerHTML += ' seleccionado';", explain: "// modifica texto" },
+                        { code: "});", explain: "" }
                     ],
                     validate(code) {
-                        return code.includes('.value') && code.includes('addEventListener') && code.includes('click');
+                        return code.includes('querySelectorAll') && code.includes('forEach') && code.includes('classList') && code.includes('innerHTML');
                     }
                 },
+                // ── 05.html ──
                 {
                     id: "m2e5",
-                    title: "Crear elemento dinámico",
-                    pts: 15,
-                    desc: "Crea un `<li>` con el texto 'Nuevo elemento', añádele la clase <em>item</em> y agrégalo al `<ul>` con id <em>lista</em>.",
-                    starter: `const lista = document.getElementById('lista');
+                    title: "DOM · querySelectorAll + forEach + classList.remove",
+                    pts: 12,
+                    desc: "Selecciona todos los elementos <em>.especial</em>. Añade la clase <em>'marcado'</em> a todos con forEach. Luego elimina la clase <em>'marcado'</em> únicamente del primer elemento.",
+                    starter: `const parrafosEspeciales = document.querySelectorAll('.especial');
 
-// 1. Crea el elemento li
-// 2. Asigna el texto
-// 3. Añade la clase 'item'
-// 4. Inserta en la lista`,
-                    hint: "document.createElement('li'), luego .textContent, .classList.add(), y lista.appendChild().",
+// forEach → classList.add('marcado') a todos
+
+// Al primero: classList.remove('marcado')`,
+                    hint: "parrafosEspeciales.forEach(p => p.classList.add('marcado')); parrafosEspeciales[0].classList.remove('marcado');",
                     solution: [
-                        { code: "const li = document.createElement('li')", explain: "// crea en memoria" },
-                        { code: "li.textContent = 'Nuevo elemento'", explain: "// asigna texto" },
-                        { code: "li.classList.add('item')", explain: "// añade clase" },
-                        { code: "lista.appendChild(li)", explain: "// inserta en el DOM" }
+                        { code: "parrafosEspeciales.forEach(p => p.classList.add('marcado'));", explain: "// a todos" },
+                        { code: "parrafosEspeciales[0].classList.remove('marcado');", explain: "// quita del primero" }
                     ],
                     validate(code) {
-                        return code.includes('createElement') && code.includes('appendChild') && code.includes('textContent');
+                        return code.includes('forEach') && code.includes('.add(') && code.includes('.remove(') && code.includes('[0]');
                     }
                 },
+                // ── 06.html ──
                 {
                     id: "m2e6",
-                    title: "querySelectorAll + forEach",
+                    title: "DOM · dataset con filas de tabla",
                     pts: 12,
-                    desc: "Selecciona todos los elementos con clase <em>.carta</em> y añade la clase <em>visible</em> a cada uno usando <strong>querySelectorAll</strong> y <strong>forEach</strong>.",
-                    starter: `const cartas = document.querySelectorAll('.carta');
+                    desc: "Selecciona todas las filas del tbody con <code>querySelectorAll('tbody tr')</code>. Para cada fila muestra su <code>dataset.idProducto</code>, el textContent de la segunda celda (índice 1), y aplica <em>height: '100px'</em> y <em>cursor: 'pointer'</em>.",
+                    starter: `const filas = document.querySelectorAll('tbody tr');
 
-// Itera y añade la clase 'visible' a cada una
-`,
-                    hint: "querySelectorAll('.carta') devuelve una NodeList. Usa .forEach() para iterar.",
+filas.forEach(fila => {
+  // Muestra dataset.idProducto
+  // Muestra el texto de la 2ª celda: fila.children[1].textContent
+  // Aplica height y cursor por .style
+});`,
+                    hint: "fila.dataset.idProducto, fila.children[1].textContent, fila.style.height = '100px', fila.style.cursor = 'pointer'.",
                     solution: [
-                        { code: "cartas.forEach(carta => carta.classList.add('visible'))", explain: "// itera con forEach" }
+                        { code: "console.log(fila.dataset.idProducto);", explain: "// data-id-producto → dataset.idProducto" },
+                        { code: "console.log(fila.children[1].textContent);", explain: "// segunda celda" },
+                        { code: "fila.style.height = '100px';", explain: "" },
+                        { code: "fila.style.cursor = 'pointer';", explain: "" }
                     ],
                     validate(code) {
-                        return code.includes('querySelectorAll') && code.includes('forEach') && code.includes('classList');
+                        return code.includes('dataset') && code.includes('.children') && code.includes('.style');
                     }
                 },
+                // ── 07.html ──
                 {
                     id: "m2e7",
-                    title: "Atributos dataset",
-                    pts: 10,
-                    desc: "Dado un elemento con <em>data-user-id='42'</em>, lee el valor de ese atributo usando <strong>dataset</strong> y muéstralo en consola.",
-                    starter: `const elem = document.querySelector('[data-user-id]');
+                    title: "DOM · Generación dinámica de contenido con dataset",
+                    pts: 15,
+                    desc: "Selecciona todas las secciones. Filtra las que tienen <code>dataset.destacado === 'true'</code>. Construye un resumen con title y número de párrafos de cada una y muéstralo en el div con id <em>'resultado'</em> usando <code>innerHTML</code>. Añade la clase <em>'resumen'</em>.",
+                    starter: `const secciones = document.querySelectorAll('section');
+let totalDestacadas = 0;
+let resumenTexto = '';
 
-// Lee el atributo data-user-id
-console.log(/* ... */);`,
-                    hint: "Los atributos data-* se convierten a camelCase en .dataset. data-user-id → dataset.userId.",
+secciones.forEach(seccion => {
+  if (seccion.dataset.destacado === 'true') {
+    totalDestacadas++;
+    // Obtén el título con querySelector('h2').textContent
+    // Cuenta los párrafos con querySelectorAll('p').length
+    // Construye resumenTexto
+  }
+});
+
+const resultado = document.getElementById('resultado');
+// resultado.innerHTML = ...
+// resultado.classList.add('resumen')`,
+                    hint: "seccion.querySelector('h2').textContent y seccion.querySelectorAll('p').length",
                     solution: [
-                        { code: "console.log(elem.dataset.userId)", explain: "// data-user-id → dataset.userId" }
+                        { code: "const titulo = seccion.querySelector('h2').textContent;", explain: "// título de la sección" },
+                        { code: "const nParrafos = seccion.querySelectorAll('p').length;", explain: "// contar párrafos" },
+                        { code: "resultado.innerHTML = \`<h3>Resumen</h3>...\`;", explain: "// insertar HTML" },
+                        { code: "resultado.classList.add('resumen');", explain: "// añadir clase" }
                     ],
                     validate(code) {
-                        return code.includes('dataset') && code.trim().length > 20;
+                        return code.includes('dataset') && code.includes('querySelector') && code.includes('innerHTML') && code.includes('classList');
                     }
                 }
+            ]
             ],
             quiz: [
                 { q: "¿Qué devuelve querySelector si no encuentra el elemento?", opts: ["[]", "undefined", "null", "0"], ans: 2 },
@@ -633,87 +1020,62 @@ console.log(/* ... */);`,
                 }
             ],
             exercises: [
+[
+                // ── 01.html ──
                 {
                     id: "m3e1",
-                    title: "Caja interactiva con toggle",
+                    title: "Eventos · addEventListener y classList.toggle",
                     pts: 15,
-                    desc: "Añade un listener de <em>click</em> a la caja con id <em>especial</em>. Cuando se haga click, debe mostrar <em>'click detectado'</em> en consola y hacer toggle de la clase <em>activa</em>.",
+                    desc: "Selecciona la caja con id <em>'especial'</em>. Añade un listener de <em>click</em>. Al hacer click debe: mostrar el texto <em>'click'</em> en consola, mostrar el objeto evento completo y hacer <em>toggle</em> de la clase <em>'activa'</em>.",
                     starter: `const caja = document.getElementById('especial');
 
 caja.addEventListener('click', (event) => {
-  // 1. console.log del evento
-  // 2. toggle de la clase 'activa'
+  // 1. console.log('click')
+  // 2. console.log(event)
+  // 3. toggle de la clase 'activa'
 });`,
-                    hint: "console.log(event) y luego caja.classList.toggle('activa').",
+                    hint: "console.log('click'), console.log(event) y caja.classList.toggle('activa').",
                     solution: [
-                        { code: "caja.addEventListener('click', (event) => {", explain: "// listener estándar" },
+                        { code: "caja.addEventListener('click', (event) => {", explain: "// listener de click" },
+                        { code: "  console.log('click');", explain: "" },
                         { code: "  console.log(event);", explain: "// objeto evento completo" },
-                        { code: "  caja.classList.toggle('activa');", explain: "// alterna la clase" }
+                        { code: "  caja.classList.toggle('activa');", explain: "// alterna la clase" },
+                        { code: "});", explain: "" }
                     ],
                     validate(code) {
-                        return code.includes('addEventListener') && code.includes('toggle') && code.includes('activa') && code.includes('classList');
+                        return code.includes('addEventListener') && code.includes('click') && code.includes('toggle') && code.includes("'activa'");
                     }
                 },
+                // ── 02.html ──
                 {
                     id: "m3e2",
-                    title: "Delegación de eventos en lista",
+                    title: "Eventos · mouseenter/mouseleave y closest()",
                     pts: 20,
-                    desc: "Tienes un <em>ul</em> con id <em>lista</em>. Añade UN SOLO listener en <em>ul</em> que elimine el <em>li</em> clickado usando delegación de eventos y <strong>event.target.closest('li')</strong>.",
-                    starter: `const lista = document.getElementById('lista');
+                    desc: "Selecciona todos los párrafos. Para cada uno, añade listeners de <em>mouseenter</em> y <em>mouseleave</em>. Usa <code>p.closest('article')</code> para acceder al artículo padre y añadirle/quitarle la clase <em>'seleccionado'</em>.",
+                    starter: `const todosParrafos = document.querySelectorAll('p');
 
-// Un solo listener en el padre
-lista.addEventListener('click', (event) => {
-  // Encuentra el li más cercano al elemento clickado
-  // Si existe, elimínalo
-});`,
-                    hint: "Usa event.target.closest('li') para encontrar el li. Si existe, llama .remove() sobre él.",
-                    solution: [
-                        { code: "const li = event.target.closest('li')", explain: "// sube hasta el li" },
-                        { code: "if (li) li.remove()", explain: "// solo si existe" }
-                    ],
-                    validate(code) {
-                        return code.includes('closest') && code.includes('remove') && code.includes('addEventListener') && code.includes('click');
-                    }
-                },
-                {
-                    id: "m3e3",
-                    title: "Formulario con preventDefault",
-                    pts: 15,
-                    desc: "Captura el evento <em>submit</em> del formulario con id <em>formulario</em>. Usa <strong>preventDefault()</strong> para evitar la recarga, lee el valor del input con id <em>campo</em> y muéstralo en consola.",
-                    starter: `const form = document.getElementById('formulario');
-const campo = document.getElementById('campo');
+todosParrafos.forEach((p) => {
+  const articulo = p.closest('article');
 
-form.addEventListener('submit', (event) => {
-  // Evita la recarga de página
-  // Lee el valor del campo y muéstralo
+  p.addEventListener('mouseenter', () => {
+    // articulo.classList.add('seleccionado')
+  });
+
+  p.addEventListener('mouseleave', () => {
+    // articulo.classList.remove('seleccionado')
+  });
 });`,
-                    hint: "event.preventDefault() cancela el submit. Luego console.log(campo.value).",
+                    hint: "p.closest('article') sube por el árbol DOM hasta encontrar el <article> padre.",
                     solution: [
-                        { code: "event.preventDefault()", explain: "// cancela el comportamiento por defecto" },
-                        { code: "console.log(campo.value)", explain: "// lee el input" }
+                        { code: "const articulo = p.closest('article');", explain: "// ancestro más cercano" },
+                        { code: "p.addEventListener('mouseenter', () => articulo.classList.add('seleccionado'));", explain: "" },
+                        { code: "p.addEventListener('mouseleave', () => articulo.classList.remove('seleccionado'));", explain: "" }
                     ],
                     validate(code) {
-                        return code.includes('preventDefault') && code.includes('.value') && code.includes('submit') && code.includes('addEventListener');
-                    }
-                },
-                {
-                    id: "m3e4",
-                    title: "Detectar tecla Enter",
-                    pts: 12,
-                    desc: "Añade un listener de <em>keydown</em> al documento. Cuando el usuario pulse <em>Enter</em>, muestra <em>'Enter pulsado'</em> en consola.",
-                    starter: `document.addEventListener('keydown', (event) => {
-  // Comprueba si la tecla es 'Enter'
-  // Si es así, muestra 'Enter pulsado' en consola
-});`,
-                    hint: "event.key === 'Enter' comprueba si la tecla pulsada es Enter.",
-                    solution: [
-                        { code: "if (event.key === 'Enter')", explain: "// compara la tecla" },
-                        { code: "  console.log('Enter pulsado')", explain: "// feedback" }
-                    ],
-                    validate(code) {
-                        return code.includes("event.key") && (code.includes("'Enter'") || code.includes('"Enter"')) && code.includes('keydown');
+                        return code.includes('closest') && code.includes('mouseenter') && code.includes('mouseleave') && code.includes('forEach');
                     }
                 }
+            ]
             ],
             quiz: [
                 { q: "¿Cuántos listeners permite addEventListener en un mismo evento?", opts: ["Solo 1", "Solo 2", "Múltiples", "Depende del navegador"], ans: 2 },
