@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JoSe · JS Study Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">
+      <span class="logo-j">J</span>o<span class="logo-s">S</span>e
+    </div>
+    <div class="header-right">
+      <button id="theme-toggle" onclick="toggleTheme()" class="theme-btn" title="Cambiar tema">
+        <i data-lucide="moon" style="width:16px;height:16px;"></i>
+      </button>
+    </div>
+  </header>
+
+  <div class="app">
+    <sidebar>
+      <div class="sidebar-section">
+        <div class="sidebar-label">General</div>
+        <button class="nav-item active" onclick="showPanel('dashboard')">
+          <div class="nav-icon"><i data-lucide="layout-dashboard" style="width:16px;height:16px;"></i></div>
+          <div class="nav-meta">
+            <span class="nav-name">Dashboard</span>
+          </div>
+        </button>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-label">Módulos</div>
+        <button class="nav-item" onclick="showModule(1)">
+          <div class="nav-icon"><i data-lucide="zap" style="width:16px;height:16px;"></i></div>
+          <div class="nav-meta">
+            <span class="nav-name">01 · Fundamentos</span>
+            <span class="nav-sub">Variables, Arrays, Funciones</span>
+          </div>
+        </button>
+        <button class="nav-item" onclick="showModule(2)">
+          <div class="nav-icon"><i data-lucide="globe" style="width:16px;height:16px;"></i></div>
+          <div class="nav-meta">
+            <span class="nav-name">02 · DOM &amp; Estilos</span>
+            <span class="nav-sub">querySelector, classList</span>
+          </div>
+        </button>
+        <button class="nav-item" onclick="showModule(3)">
+          <div class="nav-icon"><i data-lucide="target" style="width:16px;height:16px;"></i></div>
+          <div class="nav-meta">
+            <span class="nav-name">03 · Eventos</span>
+            <span class="nav-sub">Listeners, Delegación</span>
+          </div>
+        </button>
+      </div>
+
+      <div class="nav-divider"></div>
+
+      <div class="sidebar-section">
+        <button class="nav-item" onclick="showPanel('errors')">
+          <div class="nav-icon"><i data-lucide="triangle-alert" style="width:16px;height:16px;"></i></div>
+          <div class="nav-meta">
+            <span class="nav-name">Errores Comunes</span>
+            <span class="nav-sub">Patrones a evitar</span>
+          </div>
+        </button>
+      </div>
+    </sidebar>
+
+    <main>
+
+      <!-- DASHBOARD -->
+      <div class="panel active" id="panel-dashboard">
+        <div class="page-header">
+          <div class="page-title">Bienvenido al Lab</div>
+          <div class="page-subtitle">Tu entorno de práctica para dominar JavaScript antes del examen.</div>
+        </div>
+
+        <div class="section-heading">Elige tu módulo</div>
+
+        <div class="modules-grid">
+          <div class="module-card" onclick="showModule(1)">
+            <div class="card-icon-wrap"><i data-lucide="zap" style="width:22px;height:22px;"></i></div>
+            <h3>Fundamentos &amp; Lógica</h3>
+            <p>Variables, tipos, operadores, strings, arrays, sets, maps, bucles, funciones y objetos.</p>
+            <div class="card-footer">
+              <span class="card-tag">8 ejercicios</span>
+              <span class="card-arrow">→</span>
+            </div>
+          </div>
+          <div class="module-card" onclick="showModule(2)">
+            <div class="card-icon-wrap"><i data-lucide="globe" style="width:22px;height:22px;"></i></div>
+            <h3>DOM &amp; Estilos</h3>
+            <p>Selección, classList, estilos, formularios, dataset y creación de elementos.</p>
+            <div class="card-footer">
+              <span class="card-tag">7 ejercicios</span>
+              <span class="card-arrow">→</span>
+            </div>
+          </div>
+          <div class="module-card" onclick="showModule(3)">
+            <div class="card-icon-wrap"><i data-lucide="target" style="width:22px;height:22px;"></i></div>
+            <h3>Eventos &amp; Dinamismo</h3>
+            <p>addEventListener, delegación, el objeto event, preventDefault y DOM dinámico.</p>
+            <div class="card-footer">
+              <span class="card-tag">4 ejercicios</span>
+              <span class="card-arrow">→</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODULE PANEL -->
+      <div class="panel" id="panel-module">
+        <button class="back-btn" onclick="showPanel('dashboard')">← Volver al Dashboard</button>
+        <div class="page-header">
+          <div class="page-title" id="module-heading"></div>
+        </div>
+
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab('theory')">
+            <i data-lucide="book-open"
+              style="width:13px;height:13px;display:inline-flex;vertical-align:middle;margin-right:4px;"></i>Teoría
+          </button>
+          <button class="tab-btn" onclick="switchTab('practice')">
+            <i data-lucide="code-2"
+              style="width:13px;height:13px;display:inline-flex;vertical-align:middle;margin-right:4px;"></i>Práctica
+          </button>
+          <button class="tab-btn" onclick="switchTab('quiz')">
+            <i data-lucide="flask-conical"
+              style="width:13px;height:13px;display:inline-flex;vertical-align:middle;margin-right:4px;"></i>Quiz
+          </button>
+        </div>
+
+        <!-- THEORY TAB -->
+        <div class="tab-pane active" id="tab-theory">
+          <div id="theory-content"></div>
+        </div>
+
+        <!-- PRACTICE TAB -->
+        <div class="tab-pane" id="tab-practice">
+          <div class="ex-nav">
+            <button class="ex-nav-btn" id="ex-prev" onclick="changeExercise(-1)">← Ant.</button>
+            <div class="ex-steps" id="ex-steps"></div>
+            <span class="ex-counter" id="ex-counter">1 / 4</span>
+            <button class="ex-nav-btn" id="ex-next" onclick="changeExercise(1)">Sig. →</button>
+          </div>
+
+          <div id="challenge-container"></div>
+        </div>
+
+        <!-- QUIZ TAB -->
+        <div class="tab-pane" id="tab-quiz">
+          <div id="quiz-content"></div>
+        </div>
+      </div>
+
+      <!-- ERRORS PANEL -->
+      <div class="panel" id="panel-errors">
+        <button class="back-btn" onclick="showPanel('dashboard')">← Volver al Dashboard</button>
+        <div class="page-header">
+          <div class="page-title" style="display:flex;align-items:center;gap:0.5rem;">
+            <i data-lucide="triangle-alert" style="width:20px;height:20px;color:var(--red);"></i>
+            Errores Comunes
+          </div>
+          <div class="page-subtitle">Patrones de error frecuentes recopilados del curso. Estúdialos antes del examen.
+          </div>
+        </div>
+        <div class="error-list" id="errors-list"></div>
+      </div>
+
+    </main>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <!-- External Data -->
+  <script src="kb.js"></script>
+  <!-- Application Logic -->
+  <script src="app.js"></script>
+  <!-- Init icons after scripts load -->
+  <script>lucide.createIcons();</script>
+
+</body>
+
+</html>
